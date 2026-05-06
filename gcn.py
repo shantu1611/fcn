@@ -106,16 +106,13 @@ for epoch in range(1, 500):
             best_loss = loss
         print(f'Epoch {epoch:03d} | Loss: {loss:.4f} | Accuracy: {acc:.4f}')
 
-# ============================================================
-#                   METRICS CALCULATION
-# ============================================================
 def calculate_metrics():
     model.eval()
     with torch.no_grad():
         out  = model(data)
         pred = out.argmax(dim=1)
 
-    # Get true and predicted labels for test set
+ 
     y_true = data.y[data.test_mask].numpy()
     y_pred = pred[data.test_mask].numpy()
 
@@ -161,7 +158,7 @@ def calculate_metrics():
 # Run metrics
 accuracy, precision, recall, f1, specificity = calculate_metrics()
 
-# ============================================================
+
 
 def predict_crop(N, P, K, temperature, humidity, ph, rainfall):
     model.eval()
@@ -196,7 +193,7 @@ def predict_crop(N, P, K, temperature, humidity, ph, rainfall):
 
     return le.inverse_transform([pred_class])[0]
 
-# Example prediction
+#examople
 crop_name = predict_crop(
     N=22, P=28, K=26,
     temperature=27.6,
@@ -205,7 +202,7 @@ crop_name = predict_crop(
     rainfall=92
 )
 
-# Save after training loop
+#best model save
 torch.save({
     'model_state_dict': model.state_dict(),
     'scaler': scaler,
@@ -217,7 +214,7 @@ torch.save({
 print("Model saved successfully!")
 print(f'\nRecommended Crop: {crop_name}')
 
-# Final Results
+#result
 print("\n--- Final Results ---")
 print(f"Best Accuracy : {best_acc :.4f} | Loss at Best Accuracy: {best_loss:.4f}")
 print(f"Accuracy      : {accuracy    * 100:.2f}%")
